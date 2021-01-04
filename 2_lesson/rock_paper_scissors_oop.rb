@@ -194,20 +194,24 @@ class RPSGame
     return false if answer.downcase == 'n'
     return true if answer.downcase == 'y'
   end
+  
+  def play_round
+    human.choose
+    computer.choose
+    display_moves
+    display_round_winner
+    update_score
+    display_score
+  end
 
-  def play
+  def play_game
     display_welcome_message
     select_rounds
     create_empty_scoreboard
 
     loop do
       until @human_score == @rounds || @computer_score == @rounds
-        human.choose
-        computer.choose
-        display_moves
-        display_round_winner
-        update_score
-        display_score
+        play_round
       end
       display_game_winner
       create_empty_scoreboard
@@ -217,4 +221,4 @@ class RPSGame
   end
 end
 
-RPSGame.new.play
+RPSGame.new.play_game
