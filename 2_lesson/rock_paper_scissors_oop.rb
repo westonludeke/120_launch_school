@@ -58,7 +58,7 @@ class Human < Player
     choice = nil
     loop do
       puts "Please choose rock, paper, or scissors:"
-      choice = gets.chomp
+      choice = gets.chomp.downcase
       break if Move::VALUES.include? choice
       puts "Sorry, invalid choice."
     end
@@ -89,6 +89,11 @@ class RPSGame
     puts "Welcome to Rock, Paper, Scissors!"
   end
 
+  def create_empty_scoreboard
+    @human_score = 0
+    @computer_score = 0
+  end
+
   def display_goodbye_message
     puts "Thanks for playing Rock, Paper, Scissors. Goodbye!"
   end
@@ -108,6 +113,19 @@ class RPSGame
     end
   end
 
+  def update_score
+    if human.move > computer.move
+      @human_score += 1
+    elsif computer.move > human.move 
+      @computer_score += 1
+    end
+  end
+
+  def display_score
+    puts "#{human.name} now has #{@human_score} points" \
+    " and #{computer.name} has #{@computer_score} points"
+  end
+
   def play_again?
     answer = nil
     loop do
@@ -123,12 +141,15 @@ class RPSGame
 
   def play
     display_welcome_message
+    create_empty_scoreboard
 
     loop do
       human.choose
       computer.choose
       display_moves
       display_winner
+      update_score
+      display_score
       break unless play_again?
     end
     display_goodbye_message
