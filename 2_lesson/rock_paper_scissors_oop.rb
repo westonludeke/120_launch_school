@@ -1,23 +1,17 @@
 =begin
 
-The classical approach to object oriented programming is:
+  --Winner Logic--
 
-1. Write a textual description of the problem or exercise.
-
-2. Extract the major nouns and verbs from the description.
-
-3. Organize and associate the verbs with the nouns.
-
-4. The nouns are the classes and the verbs are the behaviors or methods.
-
-Notice that in OO, we don't think about the game flow logic at all. It's all about organizing and modularizing the code into a cohesive structure - classes. After we come up with the initial class definitions, the final step is to orchestrate the flow of the program using objects instantiated from the classes. We won't worry about that final step yet.
-
-
+  # rock > lizard, scissors
+  # paper > rock, spock
+  # scissors > paper, lizard
+  # lizard > spock, paper
+  # spock > scissors, rock
 
 =end
 
 class Move
-  VALUES = ['rock', 'paper', 'scissors']
+  VALUES = ['rock', 'paper', 'scissors', 'lizard', 'spock']
 
   def initialize(value)
     @value = value
@@ -35,16 +29,38 @@ class Move
     @value == 'paper'
   end
 
+  def lizard?
+    @value == 'lizard'
+  end
+
+  def spock?
+    @value == 'spock'
+  end
+
   def >(other_move)
     (rock? && other_move.scissors?) ||
+      (rock? && other_move.lizard?) ||
       (paper? && other_move.rock?) ||
-      (scissors? && other_move.paper?)
+      (paper? && other_move.spock?) ||
+      (scissors? && other_move.paper?) ||
+      (scissors? && other_move.lizard?) ||
+      (lizard? && other_move.spock?) ||
+      (lizard? && other_move.paper?) ||
+      (spock? && other_move.rock?) ||
+      (spock? && other_move.scissors?)
   end
 
   def <(other_move)
     (rock? && other_move.paper?) ||
+      (rock? && other_move.spock?) ||
       (paper? && other_move.scissors?) ||
-      (scissors? && other_move.rock?)
+      (paper? && other_move.lizard?) ||
+      (scissors? && other_move.rock?) ||
+      (scissors? && other_move.spock?) ||
+      (lizard? && other_move.rock?) ||
+      (lizard? && other_move.scissors?) ||
+      (spock? && other_move.paper?) ||
+      (spock? && other_move.lizard?)
   end
 
   def to_s
@@ -75,7 +91,7 @@ class Human < Player
   def choose
     choice = nil
     loop do
-      puts "Please choose rock, paper, or scissors:"
+      puts "Please choose rock, paper, scissors, lizard, or spock:"
       choice = gets.chomp.downcase
       break if Move::VALUES.include? choice
       puts "Sorry, invalid choice."
@@ -104,7 +120,7 @@ class RPSGame
   end
 
   def display_welcome_message
-    puts "Welcome to Rock, Paper, Scissors!"
+    puts "Welcome to Rock, Paper, Scissors, Lizard, Spock!"
   end
 
   def create_empty_scoreboard
@@ -114,7 +130,7 @@ class RPSGame
 
   def select_rounds
     puts "How many rounds would you like to play?"
-    begin 
+    begin
       @rounds = gets.chomp
       @rounds = Integer(@rounds)
     rescue ArgumentError
@@ -130,7 +146,7 @@ class RPSGame
 
   def display_moves
     puts "#{human.name} chose #{human.move}."
-    puts "#{computer.name} chose #{computer.move}"
+    puts "#{computer.name} chose #{computer.move}."
   end
 
   def display_round_winner
@@ -146,7 +162,7 @@ class RPSGame
   def update_score
     if human.move > computer.move
       @human_score += 1
-    elsif computer.move > human.move 
+    elsif human.move < computer.move
       @computer_score += 1
     end
   end
