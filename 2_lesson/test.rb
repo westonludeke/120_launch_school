@@ -1,17 +1,5 @@
 =begin
 
-  --Winner Logic--
-
-  # rock > lizard, scissors
-  # paper > rock, spock
-  # scissors > paper, lizard
-  # lizard > spock, paper
-  # spock > scissors, rock
-
-Add a class for each move
-
-What would happen if we went even further and introduced 5 more classes, one for each move: Rock, Paper, Scissors, Lizard, and Spock. How would the code change? Can you make it work? After you're done, can you talk about whether this was a good design decision? What are the pros/cons?
-
 =end
 
 class Move
@@ -42,6 +30,8 @@ class Move
   end
 
   def >(other_move)
+    puts "other move > is: #{other_move}"
+
     (rock? && (other_move.scissors? || other_move.lizard?)) ||
       (paper? && (other_move.rock? || other_move.spock?)) ||
       (scissors? && (other_move.paper? || other_move.lizard?)) ||
@@ -50,6 +40,8 @@ class Move
   end
 
   def <(other_move)
+    puts "other move < is: #{other_move}"
+
     (rock? && (other_move.paper? || other_move.spock?)) ||
       (paper? && (other_move.scissors? || other_move.lizard?)) ||
       (scissors? && (other_move.rock? || other_move.spock?)) ||
