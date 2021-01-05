@@ -8,6 +8,10 @@
   # lizard > spock, paper
   # spock > scissors, rock
 
+Add a class for each move
+
+What would happen if we went even further and introduced 5 more classes, one for each move: Rock, Paper, Scissors, Lizard, and Spock. How would the code change? Can you make it work? After you're done, can you talk about whether this was a good design decision? What are the pros/cons?
+
 =end
 
 class Move
@@ -128,7 +132,7 @@ class RPSGame
     @computer_score = 0
   end
 
-  def select_rounds
+  def select_number_of_rounds
     puts "How many rounds would you like to play?"
     begin
       @rounds = gets.chomp
@@ -194,7 +198,13 @@ class RPSGame
     return false if answer.downcase == 'n'
     return true if answer.downcase == 'y'
   end
-  
+
+  def game_setup
+    display_welcome_message
+    select_number_of_rounds
+    create_empty_scoreboard
+  end
+
   def play_round
     human.choose
     computer.choose
@@ -205,9 +215,7 @@ class RPSGame
   end
 
   def play_game
-    display_welcome_message
-    select_rounds
-    create_empty_scoreboard
+    game_setup
 
     loop do
       until @human_score == @rounds || @computer_score == @rounds
