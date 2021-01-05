@@ -8,10 +8,6 @@
   # lizard > spock, paper
   # spock > scissors, rock
 
-Add a class for each move
-
-What would happen if we went even further and introduced 5 more classes, one for each move: Rock, Paper, Scissors, Lizard, and Spock. How would the code change? Can you make it work? After you're done, can you talk about whether this was a good design decision? What are the pros/cons?
-
 =end
 
 class Move
@@ -22,39 +18,53 @@ class Move
   end
 
   def scissors?
+    @wins = ['paper', 'lizard']
+    @losses = ['rock', 'spock']
     @value == 'scissors'
   end
 
   def rock?
+    @wins = ['scissors', 'lizard']
+    @losses = ['paper', 'spock']
     @value == 'rock'
   end
 
   def paper?
+    @wins = ['rock', 'spock']
+    @losses = ['scissors', 'lizard']
     @value == 'paper'
   end
 
   def lizard?
+    @wins = ['spock', 'paper']
+    @losses = ['rock', 'scissors']
     @value == 'lizard'
   end
 
   def spock?
+    @wins = ['rock', 'scissors']
+    @losses = ['paper', 'lizard']
     @value == 'spock'
   end
 
   def >(other_move)
-    (rock? && (other_move.scissors? || other_move.lizard?)) ||
-      (paper? && (other_move.rock? || other_move.spock?)) ||
-      (scissors? && (other_move.paper? || other_move.lizard?)) ||
-      (lizard? && (other_move.spock? || other_move.paper?)) ||
-      (spock? && (other_move.rock? || other_move.scissors?))
+    other_move = other_move.to_s
+
+    (rock? && @wins.include?(other_move)) ||
+      (paper? && @wins.include?(other_move)) ||
+      (scissors? && @wins.include?(other_move)) ||
+      (lizard? && @wins.include?(other_move)) ||
+      (spock? && @wins.include?(other_move))
   end
 
   def <(other_move)
-    (rock? && (other_move.paper? || other_move.spock?)) ||
-      (paper? && (other_move.scissors? || other_move.lizard?)) ||
-      (scissors? && (other_move.rock? || other_move.spock?)) ||
-      (lizard? && (other_move.rock? || other_move.scissors?)) ||
-      (spock? && (other_move.paper? || other_move.lizard?))
+    other_move = other_move.to_s
+
+    (rock? && @losses.include?(other_move)) ||
+      (paper? && @losses.include?(other_move)) ||
+      (scissors? && @losses.include?(other_move)) ||
+      (lizard? && @losses.include?(other_move)) ||
+      (spock? && @losses.include?(other_move))
   end
 
   def to_s
