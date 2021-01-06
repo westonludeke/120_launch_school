@@ -8,6 +8,12 @@
   # lizard > spock, paper
   # spock > scissors, rock
 
+   --Added Bonus Features--
+
+  0. Keeping Score
+    Note: You can select how many rounds you'd like to play
+  1. Add Lizard and Spock
+
 =end
 
 class Move
