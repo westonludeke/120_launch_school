@@ -10,10 +10,6 @@ class Board
     reset
   end
 
-  def get_square_at(key)
-    @squares[key]
-  end
-
   def set_square_at(key, marker)
     @squares[key].marker = marker
   end
@@ -52,6 +48,20 @@ class Board
 
   def reset
     (1..9).each { |key| @squares[key] = Square.new }
+  end
+
+  def draw
+    puts '     |     |'
+    puts "  #{@squares[1]}  |  #{@squares[2]}  |  #{@squares[3]}"
+    puts '     |     |'
+    puts '-----+-----+-----'
+    puts '     |     |'
+    puts "  #{@squares[4]}  |  #{@squares[5]}  |  #{@squares[6]}"
+    puts '     |     |'
+    puts '-----+-----+-----'
+    puts '     |     |'
+    puts "  #{@squares[7]}  |  #{@squares[8]}  |  #{@squares[9]}"
+    puts '     |     |'
   end
 end
 
@@ -114,17 +124,7 @@ class TTTGame
     clear
     puts "You're a #{human.marker}. Computer is a #{computer.marker}"
     puts ''
-    puts '     |     |'
-    puts "  #{board.get_square_at(1)}  |  #{board.get_square_at(2)}  |  #{board.get_square_at(3)}"
-    puts '     |     |'
-    puts '-----+-----+-----'
-    puts '     |     |'
-    puts "  #{board.get_square_at(4)}  |  #{board.get_square_at(5)}  |  #{board.get_square_at(6)}"
-    puts '     |     |'
-    puts '-----+-----+-----'
-    puts '     |     |'
-    puts "  #{board.get_square_at(7)}  |  #{board.get_square_at(8)}  |  #{board.get_square_at(9)}"
-    puts '     |     |'
+    board.draw
     puts ''
   end
 
@@ -170,28 +170,33 @@ class TTTGame
     answer == 'y'
   end
 
+  def reset
+    board.reset
+    clear
+  end
+
+  def display_play_again_message
+    puts 'Let\'s play again!'
+    puts ' '
+  end
+
   def play
     clear
     display_welcome_message
 
     loop do
       clear_screen_and_display_board
-    
       loop do
         human_moves
         break if board.someone_won? || board.full?
-
         computer_moves
         break if board.someone_won? || board.full?
-
         clear_screen_and_display_board
       end
       display_result
       break unless play_again?
-      board.reset
-      clear
-      puts 'Let\'s play again!'
-      puts ' '
+      reset
+      display_play_again_message
     end
 
     display_goodbye_message
