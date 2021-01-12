@@ -27,8 +27,8 @@ class Board
   def winning_marker
     WINNING_LINES.each do |line|
       squares = @squares.values_at(*line)
-      if three_identical_markers?(squares)      
-        return squares.first.marker         
+      if three_identical_markers?(squares)
+        return squares.first.marker
       end
     end
     nil
@@ -57,6 +57,7 @@ class Board
   def three_identical_markers?(squares)
     markers = squares.select(&:marked?).collect(&:marker)
     return false if markers.size != 3
+
     markers.min == markers.max
   end
 end
@@ -115,11 +116,13 @@ class TTTGame
       loop do
         current_player_moves
         break if board.someone_won? || board.full?
+
         clear_screen_and_display_board if human_turn?
       end
 
       display_result
       break unless play_again?
+
       reset
       display_play_again_message
     end
@@ -139,7 +142,7 @@ class TTTGame
   end
 
   def clear_screen_and_display_board
-    clear 
+    clear
     display_board
   end
 
@@ -160,6 +163,7 @@ class TTTGame
     loop do
       square = gets.chomp.to_i
       break if board.unmarked_keys.include?(square)
+
       puts "Sorry, that's not a valid choice."
     end
 
@@ -174,7 +178,7 @@ class TTTGame
     if human_turn?
       human_moves
       @current_marker = COMPUTER_MARKER
-    else 
+    else
       computer_moves
       @current_marker = HUMAN_MARKER
     end
@@ -195,10 +199,11 @@ class TTTGame
 
   def play_again?
     answer = nil
-    loop do 
+    loop do
       puts 'Would you like to play again? (y/n)'
       answer = gets.chomp.downcase
-      break if %w(y n).include? answer
+      break if %w[y n].include? answer
+
       puts 'Sorry, must be y or n'
     end
 
