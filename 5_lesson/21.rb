@@ -218,9 +218,7 @@ class TwentyOne
     dealer.add_card(deck.deal_one)
   end
 
-  def dealer_turn
-    puts "#{dealer.name}'s turn..."
-
+  def dealer_loop
     loop do
       if dealer.total >= 17 && !dealer.busted?
         puts "#{dealer.name} stays!"
@@ -231,6 +229,11 @@ class TwentyOne
         dealer_hits
       end
     end
+  end
+
+  def dealer_turn
+    puts "#{dealer.name}'s turn..."
+    dealer_loop
   end
 
   def show_busted
