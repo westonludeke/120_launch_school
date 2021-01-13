@@ -48,16 +48,6 @@ class Card
   end
 end
 
-# class Game
-#   def start
-#     deal_cards
-#     show_initial_cards
-#     player_turn
-#     dealer_turn
-#     show_result
-#   end
-# end
-
 class Deck
   attr_accessor :cards
 
@@ -91,6 +81,8 @@ module Hand
     puts ''
   end
 
+  # Complexity too high for 'total'
+  # Total has too many lines [15/10]
   def total
     total = 0
     cards.each do |card|
@@ -103,7 +95,7 @@ module Hand
       end
     end
 
-    # Correct for Aces
+    # correct for Aces
     cards.select(&:ace?).count.times do
       break if total <= 21
       total -= 10
@@ -125,6 +117,7 @@ class Participant
   include Hand
 
   attr_accessor :name, :cards
+
   def initialize
     @cards = []
     set_name
@@ -190,6 +183,7 @@ class TwentyOne
     dealer.show_flop
   end
 
+  # Method has too many lines [21/10]
   def player_turn
     puts "#{player.name}'s turn..."
 
@@ -301,23 +295,13 @@ class TwentyOne
       show_result
       play_again? ? reset : break
     end
+    display_goodbye
+  end
 
+  def display_goodbye
     puts 'Thank you for playing Twenty-One. Goodbye!'
   end
 end
 
 game = TwentyOne.new
 game.start
-
-
-
-
-
-
-
-
-
-
-
-
-
