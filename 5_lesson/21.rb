@@ -81,8 +81,6 @@ module Hand
     puts ''
   end
 
-  # Complexity too high for 'total'
-  # Total has too many lines [15/10]
   def correct_for_aces(total)
     cards.select(&:ace?).count.times do
       break if total <= 21
@@ -143,7 +141,7 @@ class Player < Participant
 end
 
 class Dealer < Participant
-  ROBOTS = ['R2D2', 'Hal', 'Chappie', 'Sonny', 'Number 5']
+  ROBOTS = ['R2D2', 'Hal', 'Chappie', 'Sonny']
 
   def set_name
     self.name = ROBOTS.sample
@@ -184,18 +182,29 @@ class TwentyOne
     dealer.show_flop
   end
 
-  # Method has too many lines [21/10]
+  def ask_player_hit_or_stay
+    puts 'Would you like to (h)it or (s)tay?'
+    answer = nil
+
+    loop do
+      answer = gets.chomp.downcase
+      break if ['h', 's'].include?(answer)
+      puts "Sorry, must enter 'h' or 's'."
+    end
+    answer
+  end
+
+  def player_hits
+    player.add_card(deck.deal_one)
+    puts "#{player.name} hits!"
+    player.show_hand
+  end
+
   def player_turn
     puts "#{player.name}'s turn..."
 
     loop do
-      puts 'Would you like to (h)it or (s)tay?'
-      answer = nil
-      loop do
-        answer = gets.chomp.downcase
-        break if ['h', 's'].include?(answer)
-        puts "Sorry, must enter 'h' or 's'."
-      end
+      answer = ask_player_hit_or_stay
 
       if answer == 's'
         puts "#{player.name} stays!"
@@ -203,18 +212,15 @@ class TwentyOne
       elsif player.busted?
         break
       else
-        # show update only for hit
-        player.add_card(deck.deal_one)
-        puts "#{player.name} hits!"
-        player.show_hand
+        player_hits
         break if player.busted?
       end
     end
   end
 
-
   def dealer_hits
     puts "#{dealer.name} hits!"
+
     dealer.add_card(deck.deal_one)
   end
 
