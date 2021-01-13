@@ -86,13 +86,13 @@ module Hand
   def total
     total = 0
     cards.each do |card|
-      if card.ace?
-        total += 11
-      elsif card.jack? || card.queen? || card.king?
-        total += 10
-      else
-        total += card.face.to_i
-      end
+      total += if card.ace?
+                 11
+               elsif card.jack? || card.queen? || card.king?
+                 10
+               else
+                 card.face.to_i
+               end
     end
 
     # correct for Aces
@@ -150,7 +150,7 @@ class Dealer < Participant
 
   def show_flop
     puts "---- #{name}'s Hand ----"
-    puts "#{cards.first}"
+    puts (cards.first).to_s
     puts ' ?? '
     puts ''
   end
