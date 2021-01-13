@@ -212,6 +212,12 @@ class TwentyOne
     end
   end
 
+
+  def dealer_hits
+    puts "#{dealer.name} hits!"
+    dealer.add_card(deck.deal_one)
+  end
+
   def dealer_turn
     puts "#{dealer.name}'s turn..."
 
@@ -222,8 +228,7 @@ class TwentyOne
       elsif dealer.busted?
         break
       else
-        puts "#{dealer.name} hits!"
-        dealer.add_card(deck.deal_one)
+        dealer_hits
       end
     end
   end
