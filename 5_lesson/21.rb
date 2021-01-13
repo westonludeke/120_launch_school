@@ -83,6 +83,13 @@ module Hand
 
   # Complexity too high for 'total'
   # Total has too many lines [15/10]
+  def correct_for_aces(total)
+    cards.select(&:ace?).count.times do
+      break if total <= 21
+      total -= 10
+    end
+  end
+
   def total
     total = 0
     cards.each do |card|
@@ -94,13 +101,7 @@ module Hand
                  card.face.to_i
                end
     end
-
-    # correct for Aces
-    cards.select(&:ace?).count.times do
-      break if total <= 21
-      total -= 10
-    end
-
+    correct_for_aces(total)
     total
   end
 
